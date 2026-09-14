@@ -28,15 +28,35 @@ Mouse and keyboard both work: click the options or use the number/arrow keys.
 
 ## Browser extension
 
-There's also a **Chrome extension** in [`extension/`](./extension): a *⬇ toukir* button on YouTube pages plus a right-click **Download with toukir** on any link. Clicking it opens `toukir` on your machine with the video pre-filled.
+There's also a **Chrome extension** (in [`extension/`](./extension)) that puts toukir one click away in your browser:
 
-One-time setup:
+- a red **⬇ toukir** button below YouTube videos (watch, Shorts, live)
+- a right-click **Download with toukir** option on any website — Instagram, X, Threads, TikTok…
 
-```sh
-toukir setup          # registers the toukir:// protocol handler
-```
+Clicking either one opens toukir on your machine with the video pre-filled — the extension never downloads anything itself.
 
-Then load the unpacked extension via `chrome://extensions` — full instructions in [`extension/README.md`](./extension/README.md).
+### Setup (one time, ~2 minutes)
+
+1. **Install toukir 0.2.0 or newer** and register the protocol handler:
+
+   ```sh
+   npm install -g toukir@latest
+   toukir setup
+   ```
+
+   `toukir setup` registers the `toukir://` handler with your OS (Windows: per-user registry; Linux: a desktop entry — no admin rights needed).
+
+2. **Load the extension** in Chrome, Edge, or Brave:
+
+   1. Download this repo (or `git clone` it)
+   2. Open `chrome://extensions` → enable **Developer mode** (top right)
+   3. **Load unpacked** → select the `extension/` folder
+
+Done. Open any YouTube video and click **⬇ toukir**. The very first time, the browser asks *"Open toukir?"* — tick **Always allow** and it's silent from then on: one click → the toukir picker opens → pick a quality → the file lands in `~/Downloads`.
+
+> After updating or reloading the extension, refresh any open tabs — pages keep the old button until refreshed.
+
+Full details in [`extension/README.md`](./extension/README.md).
 
 ## Features
 
@@ -47,6 +67,7 @@ Then load the unpacked extension via `chrome://extensions` — full instructions
 - ⌨️ Keyboard-first too — arrows, numbers, `enter`, `esc` to cancel
 - 🛟 Plain-language errors — raw yt-dlp jargon mapped to a headline + one next step
 - 📥 Auto-organizes into `~/Downloads` with clean filenames
+- 🧩 Browser extension — download YouTube videos without leaving the page
 
 ## Requirements
 

@@ -1,11 +1,16 @@
 # toukir browser extension
 
-Adds a **⬇ toukir** button on YouTube watch & shorts pages, plus a
-**Download with toukir** right-click option on any link (X, Instagram, Threads,
-TikTok — every site yt-dlp supports).
+Adds a **⬇ toukir** button on YouTube watch, Shorts & live pages, plus a
+**Download with toukir** right-click option on any website (Instagram, X,
+Threads, TikTok — every site yt-dlp supports).
 
 Clicking either one hands the video URL to the **toukir app installed on your
 machine** — the extension never downloads anything itself.
+
+## Requirements
+
+- **toukir 0.2.0 or newer** (`npm install -g toukir@latest`)
+- Chrome, Edge, or Brave (any Chromium browser with Manifest V3 support)
 
 ## Setup (one time, two steps)
 
@@ -15,6 +20,9 @@ machine** — the extension never downloads anything itself.
 toukir setup
 ```
 
+Windows: registers `toukir://` in your per-user registry (no admin rights).
+Linux: writes a desktop entry and sets it as the scheme handler.
+
 **2. Load the extension** — in Chrome/Edge/Brave:
 
 1. Open `chrome://extensions`
@@ -22,24 +30,34 @@ toukir setup
 3. Click **Load unpacked** and select this `extension/` folder
 
 Done. Open any YouTube video — the red **⬇ toukir** button appears below the
-player. The first click shows Chrome's *"Open toukir?"* prompt; tick **Always
-allow** and from then on it's one click → toukir opens with the video
+player. The first click shows the browser's *"Open toukir?"* prompt; tick
+**Always allow** and from then on it's one click → toukir opens with the video
 pre-filled → pick a quality → downloaded to `~/Downloads`.
+
+> After reloading or updating the extension, **refresh any open tabs** — a page
+> keeps its old button until refreshed (the button removes itself rather than
+> erroring, but it won't come back until you reload the page).
 
 ## How it works
 
-- `content.js` — detects the video on the page, injects the button
-- `background.js` — opens `toukir://download?url=<video url>`
+- `content.js` — detects the video on the page, injects the button, and opens
+  the `toukir://` link from the page (that's what earns the **Always allow**
+  checkbox on the first use)
+- `background.js` — validates the URL (YouTube hosts for the button) and
+  serves the right-click menu, which works on any site; menu launches hand the
+  page/link URL to the OS directly
 - the OS protocol handler (registered by `toukir setup`) launches
   `toukir "<url>"` in a terminal window
 
 No servers, no analytics, no download happens in the browser — the extension
 is two small scripts you can read in a minute.
 
-## Requirements
+## Notes
 
-- toukir installed (`npm install -g toukir`) and `toukir setup` run once
-- Chrome, Edge, or Brave (any Chromium browser with Manifest V3 support)
+- The **Always allow** checkbox only appears for the YouTube button (launched
+  from the page). Right-click launches always show the one-time-per-click
+  prompt — that's a browser security rule, not a bug.
+- A throwaway tab may flash open during the handoff; it closes itself.
 
 ## Uninstall
 
