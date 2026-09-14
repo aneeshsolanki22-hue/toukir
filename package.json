@@ -1,0 +1,56 @@
+{
+  "name": "toukir",
+  "version": "0.1.0",
+  "description": "Download any video from YouTube, X, Instagram, Threads & 1800+ sites — right from your terminal. Paste a link, pick a quality, done.",
+  "type": "module",
+  "bin": {
+    "toukir": "dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "tsx --test src/**/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "start": "node dist/cli.js",
+    "prepublishOnly": "npm test && npm run typecheck && npm run build"
+  },
+  "author": "Toukir",
+  "keywords": [
+    "video",
+    "downloader",
+    "yt-dlp",
+    "youtube",
+    "instagram",
+    "twitter",
+    "threads",
+    "cli",
+    "tui",
+    "ink"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "ffmpeg-static": "^5.3.0",
+    "ink": "^7.1.0",
+    "ink-select-input": "^6.2.0",
+    "ink-spinner": "^5.0.0",
+    "react": "^19.2.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "@types/react": "^19.2.17",
+    "tsup": "^8.5.1",
+    "tsx": "^4.23.1",
+    "typescript": "^7.0.2"
+  },
+  "allowScripts": {
+    "esbuild@0.27.7": true,
+    "esbuild@0.28.1": true,
+    "ffmpeg-static@5.3.0": true
+  }
+}
