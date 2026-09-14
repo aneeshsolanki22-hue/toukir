@@ -105,7 +105,7 @@ export type ProbeResult = {
 
 export async function probe(ytdlp: string, url: string, signal?: AbortSignal): Promise<ProbeResult> {
   const stdout = await new Promise<string>((resolve, reject) => {
-    const child = spawn(ytdlp, ['-J', '--no-playlist', '--no-warnings', url], {signal})
+    const child = spawn(ytdlp, ['--js-runtimes', 'node', '-J', '--no-playlist', '--no-warnings', url], {signal})
     let out = ''
     let stderr = ''
     child.stdout.on('data', chunk => (out += chunk))
@@ -254,6 +254,10 @@ export function download(
     ...opts.choice.args,
     '--no-playlist',
     '--no-warnings',
+    // yt-dlp needs a JS runtime for YouTube challenges; toukir always runs
+    // under Node, so point yt-dlp at it (silences the EJS deprecation warning)
+    '--js-runtimes',
+    'node',
     '--newline',
     // --print implies --quiet, which suppresses progress bars and the
     // [Merger]/[ExtractAudio] lines we detect the processing phase from
