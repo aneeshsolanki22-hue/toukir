@@ -50,6 +50,8 @@ toukir setup
 
 `toukir setup` registers the `toukir://` handler with your OS (Windows: per-user registry; Linux: a desktop entry — no admin rights needed).
 
+> **macOS users:** protocol auto-launch isn't supported yet — `toukir setup` currently handles Windows and Linux only. The toukir **app itself works great on macOS**; until protocol support lands, macOS users can run `toukir <url>` directly instead of using the extension's launch flow.
+
 **2. Load the extension** in Chrome, Edge, or Brave. The easiest way is the release download:
 
 <p align="center">

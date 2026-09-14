@@ -11,6 +11,7 @@ machine** — the extension never downloads anything itself.
 
 - **toukir 0.2.0 or newer** (`npm install -g toukir@latest`)
 - Chrome, Edge, or Brave (any Chromium browser with Manifest V3 support)
+- **Windows or Linux** for the auto-launch flow (see the macOS note below)
 
 ## Setup (one time, two steps)
 
@@ -22,6 +23,13 @@ toukir setup
 
 Windows: registers `toukir://` in your per-user registry (no admin rights).
 Linux: writes a desktop entry and sets it as the scheme handler.
+
+> **⚠️ macOS:** `toukir setup` doesn't support macOS yet — the toukir app itself
+> works fine on macOS, but the OS can't be told to launch it from a `toukir://`
+> link, so the extension's button/menu won't open anything. Until macOS protocol
+> support lands, run `toukir <url>` directly in a terminal instead. (Want this
+> fixed? It needs a small generated `.app` bundle registered with Launch
+> Services — see the repo issues.)
 
 **2. Load the extension** — in Chrome/Edge/Brave, pick either:
 
@@ -68,8 +76,10 @@ is two small scripts you can read in a minute.
 
 ## Uninstall
 
-Remove it from `chrome://extensions`, and unregister the protocol with:
+Remove it from `chrome://extensions`, and unregister the protocol:
 
 ```sh
-reg delete HKCU\Software\Classes\toukir /f   # windows
+reg delete HKCU\Software\Classes\toukir /f                        # windows
+rm ~/.local/share/applications/toukir.desktop                      # linux
+rm -rf ~/Applications/toukir.app                                   # macos, once support exists
 ```
