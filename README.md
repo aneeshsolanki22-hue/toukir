@@ -26,6 +26,18 @@ toukir
 
 Mouse and keyboard both work: click the options or use the number/arrow keys.
 
+## Browser extension
+
+There's also a **Chrome extension** in [`extension/`](./extension): a *⬇ toukir* button on YouTube pages plus a right-click **Download with toukir** on any link. Clicking it opens `toukir` on your machine with the video pre-filled.
+
+One-time setup:
+
+```sh
+toukir setup          # registers the toukir:// protocol handler
+```
+
+Then load the unpacked extension via `chrome://extensions` — full instructions in [`extension/README.md`](./extension/README.md).
+
 ## Features
 
 - 🎬 1800+ sites via yt-dlp — YouTube, X/Twitter, Instagram, Threads, and more
@@ -44,6 +56,7 @@ Mouse and keyboard both work: click the options or use the number/arrow keys.
 ## Roadmap
 
 - [x] Publish to npm
+- [x] Browser extension (YouTube button + right-click → toukir)
 - [ ] `toukir <url> --best` — skip the picker for scripts
 - [ ] Playlist support
 - [ ] `curl toukir.sh | sh` installer

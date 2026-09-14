@@ -5,6 +5,7 @@ import {App, type Outcome} from './app.js'
 import {captureFrames} from './lib/click-map.js'
 import {parseArgs} from './lib/args.js'
 import {readClipboard} from './lib/clipboard.js'
+import {runSetup} from './lib/handler-install.js'
 import {isProbablyUrl} from './lib/platforms.js'
 
 // read at runtime from the shipped package.json so npm version bumps
@@ -30,6 +31,10 @@ const HELP = `
   Options
     -h, --help      show this help
     -v, --version   show version
+
+  Setup
+    $ toukir setup  register the toukir:// protocol handler so the
+                    browser extension can send videos to toukir
 
   In the app
     ↑/↓ or 1–9      choose a quality
@@ -57,6 +62,12 @@ if (args.help) {
 if (args.version) {
   console.log(VERSION)
   process.exit(0)
+}
+
+if (args.setup) {
+  const result = runSetup()
+  console.log(`${result.ok ? '✓' : '✗'} ${result.message}`)
+  process.exit(result.ok ? 0 : 1)
 }
 
 const initialUrl = args.initialUrl
