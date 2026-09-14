@@ -4,4 +4,4 @@ dist/
 *.log
 .DS_Store
 .claude/
-.freebuff/
+.freebuff/toukir-extension-*.zip

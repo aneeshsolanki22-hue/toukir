@@ -46,11 +46,16 @@ Clicking either one opens toukir on your machine with the video pre-filled — t
 
    `toukir setup` registers the `toukir://` handler with your OS (Windows: per-user registry; Linux: a desktop entry — no admin rights needed).
 
-2. **Load the extension** in Chrome, Edge, or Brave:
+2. **Load the extension** in Chrome, Edge, or Brave — pick either:
 
-   1. Download this repo (or `git clone` it)
-   2. Open `chrome://extensions` → enable **Developer mode** (top right)
-   3. **Load unpacked** → select the `extension/` folder
+   **Option A — direct download (easiest):** grab
+   [`toukir-extension-v0.2.0.zip`](https://github.com/aneeshsolanki22-hue/toukir/releases/download/v0.2.0/toukir-extension-v0.2.0.zip)
+   from the release page, unzip it, then:
+
+   1. Open `chrome://extensions` → enable **Developer mode** (top right)
+   2. **Load unpacked** → select the unzipped folder
+
+   **Option B — from source:** clone/download this repo and select its `extension/` folder the same way.
 
 Done. Open any YouTube video and click **⬇ toukir**. The very first time, the browser asks *"Open toukir?"* — tick **Always allow** and it's silent from then on: one click → the toukir picker opens → pick a quality → the file lands in `~/Downloads`.
 

@@ -23,11 +23,18 @@ toukir setup
 Windows: registers `toukir://` in your per-user registry (no admin rights).
 Linux: writes a desktop entry and sets it as the scheme handler.
 
-**2. Load the extension** — in Chrome/Edge/Brave:
+**2. Load the extension** — in Chrome/Edge/Brave, pick either:
+
+**Option A — direct download (easiest):** download
+[`toukir-extension-v0.2.0.zip`](https://github.com/aneeshsolanki22-hue/toukir/releases/download/v0.2.0/toukir-extension-v0.2.0.zip)
+from the releases page and unzip it. Then:
 
 1. Open `chrome://extensions`
 2. Turn on **Developer mode** (top right)
-3. Click **Load unpacked** and select this `extension/` folder
+3. Click **Load unpacked** and select the unzipped folder
+
+**Option B — from source:** select this repo's `extension/` folder in the
+same way (always the newest code).
 
 Done. Open any YouTube video — the red **⬇ toukir** button appears below the
 player. The first click shows the browser's *"Open toukir?"* prompt; tick
