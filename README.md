@@ -84,14 +84,6 @@ Full details in [`extension/README.md`](./extension/README.md).
 - Node.js 18+
 - ffmpeg (optional — needed for mp3 and merged video+audio; auto-fallback to `ffmpeg-static`)
 
-## Roadmap
-
-- [x] Publish to npm
-- [x] Browser extension (YouTube button + right-click → toukir)
-- [ ] `toukir <url> --best` — skip the picker for scripts
-- [ ] Playlist support
-- [ ] `curl toukir.sh | sh` installer
-
 ## Development
 
 ```sh
