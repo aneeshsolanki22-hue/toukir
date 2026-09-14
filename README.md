@@ -1,58 +1,58 @@
 # toukir
 
-[![npm version](https://img.shields.io/npm/v/toukir.svg)](https://www.npmjs.com/package/toukir)
+[![npm](https://img.shields.io/npm/v/toukir.svg)](https://www.npmjs.com/package/toukir)
 [![CI](https://github.com/aneeshsolanki22-hue/toukir/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/aneeshsolanki22-hue/toukir/actions/workflows/ci.yml)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-Download any video from YouTube, X, Instagram, Threads & 1800+ sites — right from your terminal. Paste a link, pick a quality, done.
+A terminal video downloader with a real interface: launch it, hand it a link, choose a quality from a list with accurate file sizes, and let it save the file wherever you expect to find it.
 
-Built with [React](https://react.dev) + [Ink](https://github.com/vadimdemedes/ink) for the terminal UI, powered by [yt-dlp](https://github.com/yt-dlp/yt-dlp).
+Works with YouTube, X/Twitter, Instagram, Threads, TikTok and 1,800+ other sites — everything [yt-dlp](https://github.com/yt-dlp/yt-dlp) supports — wrapped in a keyboard-and-mouse friendly UI built with [React](https://react.dev) and [Ink](https://github.com/vadimdemedes/ink).
 
-## Install
+---
+
+## Quick start
 
 ```sh
 npm install -g toukir
 ```
 
-Then run it from anywhere:
-
 ```sh
-toukir
+toukir                      # opens the app
+toukir <url>                # jumps straight to the quality picker
+toukir --help               # all options
 ```
 
-> First run downloads the yt-dlp engine automatically (system install is used if you already have it). MP3 extraction needs ffmpeg — toukir falls back to `ffmpeg-static` if you don't have it.
+| Step | What happens |
+|---|---|
+| **Give it a link** | Type it, paste it, or just launch `toukir` with the link already in your clipboard — it detects and offers it |
+| **Choose a format** | Every available resolution with size estimates, or audio-only mp3 |
+| **Get the file** | Saved to `~/Downloads` with a clean name; the full path is printed when finished |
 
-## How it works
-
-1. **Paste a link** — plain URL, even without `https://`; toukir reads your clipboard and offers it
-2. **Pick a quality** — every resolution with honest size estimates, or audio-only mp3
-3. **Done** — the file lands in your `~/Downloads`, path printed for copy-paste
-
-Mouse and keyboard both work: click the options or use the number/arrow keys.
+First run fetches the yt-dlp engine automatically (an existing system install is preferred). ffmpeg is optional — needed only for mp3 extraction and merging, with `ffmpeg-static` as an automatic fallback.
 
 ## Browser extension
 
-Put toukir one click away in your browser:
+toukir also ships a Chromium extension (Chrome, Edge, Brave) that bridges the browser to the app:
 
-- a red **⬇ toukir** button below YouTube videos (watch, Shorts, live)
-- a right-click **Download with toukir** option on any website — Instagram, X, Threads, TikTok…
+- a **⬇ toukir** button on YouTube pages — watch, Shorts, and live
+- a **right-click → Download with toukir** action on any site
 
-Clicking either one opens toukir on your machine with the video pre-filled — the extension never downloads anything itself.
+Both hand the video URL to the app on your machine. The extension performs no downloads, stores nothing, and contacts no servers.
 
-### Setup (one time, ~2 minutes)
+### Setup
 
-**1. Install toukir 0.2.0 or newer** and register the protocol handler:
+**1. Install the app (0.2.0+) and register the protocol handler**
 
 ```sh
 npm install -g toukir@latest
 toukir setup
 ```
 
-`toukir setup` registers the `toukir://` handler with your OS (Windows: per-user registry; Linux: a desktop entry — no admin rights needed).
+This registers the `toukir://` scheme with your OS — per-user Windows registry or a Linux desktop entry, no administrator rights required.
 
-> **macOS users:** protocol auto-launch isn't supported yet — `toukir setup` currently handles Windows and Linux only. The toukir **app itself works great on macOS**; until protocol support lands, macOS users can run `toukir <url>` directly instead of using the extension's launch flow.
+> **macOS** — the app itself is fully supported, but protocol registration isn't implemented yet. Use `toukir <url>` directly for now.
 
-**2. Load the extension** in Chrome, Edge, or Brave. The easiest way is the release download:
+**2. Install the extension**
 
 <p align="center">
   <a href="https://github.com/aneeshsolanki22-hue/toukir/releases/download/v0.2.0/toukir-extension-v0.2.0.zip">
@@ -60,41 +60,38 @@ toukir setup
   </a>
 </p>
 
-Unzip it, then open `chrome://extensions` → enable **Developer mode** (top right) → **Load unpacked** → select the unzipped folder.
+Unzip, then open `chrome://extensions` → **Developer mode** → **Load unpacked** → select the unzipped folder. (Alternatively, point Load unpacked at this repo's `extension/` directory for the latest code.)
 
-> Prefer living on the edge? Clone this repo and select its `extension/` folder instead — that's always the newest code.
+**3. Use it** — open a YouTube video, click **⬇ toukir**. The browser asks permission once ("Open toukir?" → **Always allow**); from then on, one click opens the app with the video ready to pick.
 
-**3. Use it.** Open any YouTube video and click **⬇ toukir**. The very first time, the browser asks *"Open toukir?"* — tick **Always allow** and it's silent from then on: one click → the toukir picker opens → pick a quality → the file lands in `~/Downloads`.
+Details and troubleshooting: [`extension/README.md`](./extension/README.md).
 
-> After updating or reloading the extension, refresh any open tabs — pages keep the old button until refreshed.
+## Highlights
 
-Full details in [`extension/README.md`](./extension/README.md).
-
-## Features
-
-- 🎬 1800+ sites via yt-dlp — YouTube, X/Twitter, Instagram, Threads, and more
-- 🧩 Browser extension — download YouTube videos without leaving the page
-- 📏 Per-resolution size estimates (bitrate × duration when exact sizes aren't published)
-- 🎵 Audio-only downloads as mp3 (via ffmpeg)
-- 🖱️ Full mouse support — click buttons, quality rows, and cancel links
-- ⌨️ Keyboard-first too — arrows, numbers, `enter`, `esc` to cancel
-- 🛟 Plain-language errors — raw yt-dlp jargon mapped to a headline + one next step
-- 📥 Auto-organizes into `~/Downloads` with clean filenames
+- **1,800+ sites** through the yt-dlp engine, kept current by its maintainers
+- **Honest sizes** — per-resolution estimates from bitrate × duration when exact sizes aren't published; nothing is faked
+- **Audio-only mp3** extraction via ffmpeg
+- **Fully mouse-driven** — buttons, quality rows, and cancel links are clickable
+- **Fully keyboard-driven** — arrows, number shortcuts, `enter`, `esc`
+- **Readable errors** — yt-dlp failures are translated to a plain-language headline plus one concrete next step
+- **Zero configuration** — sensible defaults, organized output, no config files
 
 ## Requirements
 
 - Node.js 18+
-- ffmpeg (optional — needed for mp3 and merged video+audio; auto-fallback to `ffmpeg-static`)
+- ffmpeg (optional — see Quick start)
 
 ## Development
 
 ```sh
 npm install
-npm run dev      # watch build
-npm test         # tests
-npm run typecheck
+npm run dev          # watch mode build
+npm test             # test suite
+npm run typecheck    # strict type check
 ```
 
 ## License
 
-MIT
+[MIT](./LICENSE) — © toukir contributors.
+
+toukir builds on prior art from the open-source community; the [LICENSE](./LICENSE) file carries the full attribution chain, including the original work it derives from.
