@@ -39,14 +39,17 @@ function ensureStyle() {
   style.id = STYLE_ID
   style.textContent = `
     #${BUTTON_ID} {
-      display: inline-flex; align-items: center; gap: 6px;
+      display: inline-flex; flex-direction: row; align-items: center; gap: 6px;
       margin-left: 8px; padding: 8px 14px;
       background: #e53935; color: #fff; border: none; border-radius: 18px;
       font: 500 14px/1 "Roboto", "YouTube Sans", sans-serif;
       cursor: pointer; vertical-align: middle;
+      white-space: nowrap;
     }
     #${BUTTON_ID}:hover { background: #c62828; }
     #${BUTTON_ID}.toukir-sent { opacity: .6; }
+    #${BUTTON_ID} .toukir-icon { display: inline-block; font-size: 14px; line-height: 1; }
+    #${BUTTON_ID} .toukir-label { display: inline-block; }
   `
   document.head.appendChild(style)
 }
@@ -89,7 +92,14 @@ function injectButton() {
   const button = document.createElement('button')
   button.id = BUTTON_ID
   button.dataset.generation = GENERATION
-  button.textContent = '⬇ toukir'
+  const icon = document.createElement('span')
+  icon.className = 'toukir-icon'
+  icon.textContent = '⬇'
+  const label = document.createElement('span')
+  label.className = 'toukir-label'
+  label.textContent = 'toukir'
+  button.appendChild(icon)
+  button.appendChild(label)
   button.title = 'Download this video with toukir'
   button.addEventListener('click', event => {
     event.preventDefault()
