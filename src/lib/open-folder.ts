@@ -11,7 +11,12 @@ export function openFolderCommand(
   filepath: string,
   platform: NodeJS.Platform = process.platform,
 ): {command: string; args: string[]} | undefined {
-  if (platform === 'win32') return {command: 'explorer.exe', args: ['/select,', path.normalize(filepath)]}
+  if (platform === 'win32') {
+    // the comma and path must be ONE arg — node joins args with spaces and
+    // `explorer.exe /select, C:\…` (with a space) makes explorer silently
+    // ignore the selection and open the default view instead
+    return {command: 'explorer.exe', args: [`/select,${path.normalize(filepath)}`]}
+  }
   if (platform === 'darwin') return {command: 'open', args: ['-R', filepath]}
   if (platform === 'linux') return {command: 'xdg-open', args: [path.dirname(filepath)]}
   return undefined

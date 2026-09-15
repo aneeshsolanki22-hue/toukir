@@ -6,7 +6,9 @@ import {openFolderCommand} from './open-folder.js'
 test('windows reveals the file itself via explorer /select', () => {
   const cmd = openFolderCommand('C:/Users/u/Downloads/v.mp4', 'win32')!
   assert.equal(cmd.command, 'explorer.exe')
-  assert.deepEqual(cmd.args, ['/select,', 'C:\\Users\\u\\Downloads\\v.mp4'])
+  // the comma+path must be a single arg — split across args, explorer.exe
+  // opens the default view instead of selecting the file
+  assert.deepEqual(cmd.args, ['/select,' + 'C:/Users/u/Downloads/v.mp4'.replace(/\//g, '\\')])
 })
 
 test('macos reveals the file in finder', () => {
