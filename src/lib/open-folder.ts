@@ -2,21 +2,20 @@ import {spawn} from 'node:child_process'
 import path from 'node:path'
 
 /**
- * Pure: the command + args that reveal a downloaded file in the OS file
- * manager. Windows selects the file itself; macOS reveals it via Finder;
- * Linux opens the containing folder (xdg-open has no "reveal" concept).
+ * Pure: the command + args that open the folder containing a downloaded file.
+ * Windows: explorer accepts a quoted plain path argument, which works even
+ * when the path has spaces. (The `/select,<file>` variant would also highlight
+ * the file, but explorer's parsing of it breaks through Node's arg quoting
+ * whenever the title contains spaces — it silently opens Documents instead.
+ * Verified against a real download, so the folder is opened unselected.)
+ * macOS reveals the file via Finder; Linux opens the containing folder.
  * `undefined` = platform with no supported opener.
  */
 export function openFolderCommand(
   filepath: string,
   platform: NodeJS.Platform = process.platform,
 ): {command: string; args: string[]} | undefined {
-  if (platform === 'win32') {
-    // the comma and path must be ONE arg — node joins args with spaces and
-    // `explorer.exe /select, C:\…` (with a space) makes explorer silently
-    // ignore the selection and open the default view instead
-    return {command: 'explorer.exe', args: [`/select,${path.normalize(filepath)}`]}
-  }
+  if (platform === 'win32') return {command: 'explorer.exe', args: [path.dirname(path.normalize(filepath))]}
   if (platform === 'darwin') return {command: 'open', args: ['-R', filepath]}
   if (platform === 'linux') return {command: 'xdg-open', args: [path.dirname(filepath)]}
   return undefined

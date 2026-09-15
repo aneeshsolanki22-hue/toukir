@@ -3,12 +3,12 @@ import path from 'node:path'
 import test from 'node:test'
 import {openFolderCommand} from './open-folder.js'
 
-test('windows reveals the file itself via explorer /select', () => {
+test('windows opens the containing folder via a plain path argument', () => {
   const cmd = openFolderCommand('C:/Users/u/Downloads/v.mp4', 'win32')!
   assert.equal(cmd.command, 'explorer.exe')
-  // the comma+path must be a single arg — split across args, explorer.exe
-  // opens the default view instead of selecting the file
-  assert.deepEqual(cmd.args, ['/select,' + 'C:/Users/u/Downloads/v.mp4'.replace(/\//g, '\\')])
+  // a plain folder path survives node's arg quoting for titles with spaces;
+  // the /select,<file> variant breaks in that case and opens the wrong folder
+  assert.deepEqual(cmd.args, ['C:\\Users\\u\\Downloads'])
 })
 
 test('macos reveals the file in finder', () => {
