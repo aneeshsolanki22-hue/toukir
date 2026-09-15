@@ -15,6 +15,7 @@ import {clickTargetAt, findFrameRow, frameRowSpan, type ClickTarget} from './lib
 import {friendlyError} from './lib/errors.js'
 import {formatBytes, formatDuration, formatEta, formatSpeed, shortenPath, truncate, wrapText} from './lib/format.js'
 import {addToHistory, loadHistory} from './lib/history.js'
+import {openFolder} from './lib/open-folder.js'
 import {detectPlatform, isProbablyUrl, type Platform} from './lib/platforms.js'
 import {useMouseClick} from './lib/use-mouse-click.js'
 import {ThemeProvider, useTheme} from './theme.js'
@@ -36,6 +37,7 @@ const DOWNLOAD_BUTTON = 'check link'
 const CANCEL_BUTTON = 'cancel'
 const DONE_LABEL = 'enter · download another'
 const RETRY_LABEL = 'enter · try again'
+const OPEN_FOLDER_LABEL = 'o · open folder'
 const TAGLINE = 'paste a link, pick a quality, done.'
 
 // one term for each concept (audit #1, #5): "setting up" = getting yt-dlp
@@ -157,7 +159,7 @@ const HINTS: Record<Phase['name'], Array<[string, string]>> = {
     ['esc', 'cancel'],
     ['ctrl + c', 'quit'],
   ],
-  done: [['ctrl + c', 'quit']],
+  done: [['o', 'open folder'], ['ctrl + c', 'quit']],
   error: [
     ['enter', 'try again'],
     ['ctrl + c', 'quit'],
@@ -200,6 +202,9 @@ function AppContent({
   const highlightRef = useRef(0) // choice under the cursor, for the enter hint click
   const infoJsonRef = useRef<string | undefined>(undefined)
   const abortRef = useRef<AbortController | undefined>(undefined)
+  // last successfully downloaded file — the done screen's "open folder"
+  // action needs it even when phase state has already moved on
+  const lastFilepathRef = useRef<string | undefined>(undefined)
   const [phase, setPhase] = useState<Phase>(
     initialUrl ? {name: 'probing', status: BODY_STATUS_SETUP, setup: true} : {name: 'input'},
   )
@@ -266,6 +271,8 @@ function AppContent({
       if (key.escape && (phase.name === 'picking' || phase.name === 'error' || phase.name === 'done')) resetToInput()
       if (key.escape && (phase.name === 'probing' || phase.name === 'downloading')) cancelRun()
       if (key.return && (phase.name === 'error' || phase.name === 'done')) resetToInput()
+      // reveal the finished file in the file manager (no modifier, no chording)
+      if (input === 'o' && phase.name === 'done' && lastFilepathRef.current) openFolder(lastFilepathRef.current)
       // number keys 1–9 jump straight to a format, matching the hints
       if (
         phase.name === 'picking' &&
@@ -327,6 +334,7 @@ function AppContent({
           filepath = await download(base, handlers, controller.signal)
         }
         onOutcome({filepath})
+        lastFilepathRef.current = filepath
         setHistory(addToHistory(url))
         setPhase({name: 'done', filepath})
       } catch (error) {
@@ -350,6 +358,7 @@ function AppContent({
   const hintAction = (key: string): (() => void) | undefined => {
     if (key === 'ctrl + c') return () => exit()
     if (key === 'esc') return phase.name === 'probing' || phase.name === 'downloading' ? cancelRun : resetToInput
+    if (key === 'o') return phase.name === 'done' && lastFilepathRef.current ? () => openFolder(lastFilepathRef.current!) : undefined
     if (key === 'enter') {
       if (phase.name === 'input') return () => handleUrlSubmit(urlInput)
       if (phase.name === 'picking') return () => handlePick({value: highlightRef.current})
@@ -374,6 +383,11 @@ function AppContent({
   }
   if (phase.name === 'done') {
     clickTargets.push({match: DONE_LABEL, padX: 4, padY: 1, action: resetToInput})
+    // clicking the file path or the open-folder hint reveals it in the file manager
+    if (lastFilepathRef.current) {
+      clickTargets.push({match: shortenPath(lastFilepathRef.current, os.homedir(), 60), action: () => openFolder(lastFilepathRef.current!)})
+      clickTargets.push({match: OPEN_FOLDER_LABEL, action: () => openFolder(lastFilepathRef.current!)})
+    }
   }
   if (phase.name === 'error') {
     // the big retry button — same action as the footer's enter hint
