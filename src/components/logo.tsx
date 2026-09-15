@@ -2,15 +2,15 @@ import React, {useEffect, useMemo, useState} from 'react'
 import {Box, Text} from 'ink'
 import {type Theme, useTheme} from '../theme.js'
 
-// a single block letter T — the mark of the tool, nothing to read or translate
+// the wordmark in block letters — the name of the tool, nothing to read or
+// translate. 5-row glyphs (I is 3 wide), one space between letters.
 const ART = [
-  '██████████',
-  '██████████',
-  '    ██    ',
-  '    ██    ',
-  '    ██    ',
-  '    ██    ',
-]
+  '█████ .███. █...█ █...█ ███ ████',
+  '..█.. █...█ █...█ █..█. .█. █..█',
+  '..█.. █...█ █...█ ███.. .█. ████',
+  '..█.. █...█ █...█ █..█. .█. █.█.',
+  '..█.. .███. .███. █...█ ███ █..█',
+].map(line => line.replace(/\./g, ' '))
 const GRID = ART.map(line => [...line])
 const ROWS = GRID.length
 
