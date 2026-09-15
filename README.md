@@ -55,8 +55,8 @@ This registers the `toukir://` scheme with your OS — per-user Windows registry
 **2. Install the extension**
 
 <p align="center">
-  <a href="https://github.com/aneeshsolanki22-hue/toukir/releases/download/v0.2.0/toukir-extension-v0.2.0.zip">
-    <img src="https://img.shields.io/badge/⬇_Download_extension-v0.2.0-e53935?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Download the toukir browser extension"/>
+  <a href="https://github.com/aneeshsolanki22-hue/toukir/releases/download/v0.2.1/toukir-extension-v0.2.1.zip">
+    <img src="https://img.shields.io/badge/⬇_Download_extension-v0.2.1-e53935?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Download the toukir browser extension"/>
   </a>
 </p>
 

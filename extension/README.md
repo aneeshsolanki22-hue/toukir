@@ -34,7 +34,7 @@ Linux: writes a desktop entry and sets it as the scheme handler.
 **2. Load the extension** — in Chrome/Edge/Brave, pick either:
 
 **Option A — direct download (easiest):** download
-[`toukir-extension-v0.2.0.zip`](https://github.com/aneeshsolanki22-hue/toukir/releases/download/v0.2.0/toukir-extension-v0.2.0.zip)
+[`toukir-extension-v0.2.1.zip`](https://github.com/aneeshsolanki22-hue/toukir/releases/download/v0.2.1/toukir-extension-v0.2.1.zip)
 from the releases page and unzip it. Then:
 
 1. Open `chrome://extensions`
