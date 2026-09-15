@@ -1,6 +1,6 @@
 {
   "name": "toukir",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Download any video from YouTube, X, Instagram, Threads & 1800+ sites — right from your terminal. Paste a link, pick a quality, done.",
   "type": "module",
   "bin": {
