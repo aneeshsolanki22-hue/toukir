@@ -15,9 +15,14 @@ export function openFolderCommand(
   filepath: string,
   platform: NodeJS.Platform = process.platform,
 ): {command: string; args: string[]} | undefined {
-  if (platform === 'win32') return {command: 'explorer.exe', args: [path.dirname(path.normalize(filepath))]}
+  if (platform === 'win32') {
+    // win32-specific path helpers — the host may be linux/mac (CI), where
+    // path.normalize/dirname would mangle drive-letter paths
+    const p = path.win32.normalize(filepath)
+    return {command: 'explorer.exe', args: [path.win32.dirname(p)]}
+  }
   if (platform === 'darwin') return {command: 'open', args: ['-R', filepath]}
-  if (platform === 'linux') return {command: 'xdg-open', args: [path.dirname(filepath)]}
+  if (platform === 'linux') return {command: 'xdg-open', args: [path.posix.dirname(filepath)]}
   return undefined
 }
 
